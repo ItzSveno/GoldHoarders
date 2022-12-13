@@ -1,6 +1,6 @@
 # Don't track content of these folders
 config/
-
+.idea
 
 # Compiled source #
 ###################
@@ -21,3 +21,4 @@ config/
 *.rar
 *.tar
 *.zip
+
