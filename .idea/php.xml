@@ -12,6 +12,11 @@
   <component name="PhpStanOptionsConfiguration">
     <option name="transferred" value="true" />
   </component>
+  <component name="PhpStepFilterConfiguration">
+    <skipped_files>
+      <skipped_file file="$PROJECT_DIR$/css" />
+    </skipped_files>
+  </component>
   <component name="PsalmOptionsConfiguration">
     <option name="transferred" value="true" />
   </component>
