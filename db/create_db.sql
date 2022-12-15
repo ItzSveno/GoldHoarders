@@ -1,0 +1,31 @@
+CREATE DATABASE bank;
+
+USE bank;
+
+CREATE TABLE users (
+  id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(255) NOT NULL,
+  email VARCHAR(255) NOT NULL,
+  password VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE accounts (
+  id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  user_id INT NOT NULL,
+  balance DECIMAL(10,2) NOT NULL,
+  type ENUM('savings', 'checking') NOT NULL,
+  timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (user_id) REFERENCES users(id)
+);
+
+CREATE TABLE transactions (
+  id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  from_account INT NOT NULL,
+  to_account INT NOT NULL,
+  amount DECIMAL(10,2) NOT NULL,
+  timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (from_account) REFERENCES accounts(id),
+  FOREIGN KEY (to_account) REFERENCES accounts(id)
+);
+
+
