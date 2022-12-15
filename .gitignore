@@ -1,5 +1,5 @@
 # Don't track content of these folders
-config/
+config/config.php
 .idea
 
 # Compiled source #
@@ -21,4 +21,5 @@ config/
 *.rar
 *.tar
 *.zip
+
 
