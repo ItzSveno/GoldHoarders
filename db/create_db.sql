@@ -1,7 +1,7 @@
 CREATE DATABASE bank;
 
 USE bank;
-
+--Creates Tables
 CREATE TABLE users (
   id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   name VARCHAR(255) NOT NULL,
@@ -27,5 +27,25 @@ CREATE TABLE transactions (
   FOREIGN KEY (from_account) REFERENCES accounts(id),
   FOREIGN KEY (to_account) REFERENCES accounts(id)
 );
-
+--Function to check if theres EnoughBalance
+CREATE DEFINER=`admin`@`%` FUNCTION `EnoughBalance`(AccountID INT, Amount DECIMAL(10,2)) RETURNS int(11)
+BEGIN
+	DECLARE BalStatus INT;
+    SET BalStatus = 0;
+	IF(((SELECT balance FROM accounts WHERE id=AccountID) - Amount)>= 0) then
+		SET BalStatus = 1;
+	END IF;
+	Return BalStatus;
+END
+--Function to TransferAmount
+CREATE DEFINER=`admin`@`%` PROCEDURE `TransferAmount`(IN AccountFromID INTEGER,IN AccountToID INTEGER,IN Amount DECIMAL(10,2))
+BEGIN
+	IF((SELECT EnoughBalance(AccountFromID, Amount)) = 1 AND Amount >= 0) THEN
+		START TRANSACTION;
+			UPDATE accounts SET balance = (balance - Amount) WHERE id=AccountFromID;
+			UPDATE accounts SET balance = (balance + Amount) WHERE id=AccountToID;
+			INSERT INTO transactions(from_account, to_account, amount) VALUES (AccountFromID, AccountToID, Amount);
+		COMMIT;
+    END IF;
+END
 
