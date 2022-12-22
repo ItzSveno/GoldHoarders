@@ -32,7 +32,7 @@ CREATE DEFINER=`admin`@`%` FUNCTION `EnoughBalance`(AccountID INT, Amount DECIMA
 BEGIN
 	DECLARE BalStatus INT;
     SET BalStatus = 0;
-	IF(((SELECT balance FROM accounts WHERE id=AccountID) - Amount)>= 0) then
+	IF(((SELECT balance FROM accounts WHERE id=AccountID) - Amount) >= 0) then
 		SET BalStatus = 1;
 	END IF;
 	Return BalStatus;
@@ -40,7 +40,7 @@ END
 --Function to TransferAmount
 CREATE DEFINER=`admin`@`%` PROCEDURE `TransferAmount`(IN AccountFromID INTEGER,IN AccountToID INTEGER,IN Amount DECIMAL(10,2))
 BEGIN
-	IF((SELECT EnoughBalance(AccountFromID, Amount)) = 1 AND Amount >= 0) THEN
+	IF(Amount > 0 AND (SELECT EnoughBalance(AccountFromID, Amount)) = 1) THEN
 		START TRANSACTION;
 			UPDATE accounts SET balance = (balance - Amount) WHERE id=AccountFromID;
 			UPDATE accounts SET balance = (balance + Amount) WHERE id=AccountToID;
@@ -48,4 +48,10 @@ BEGIN
 		COMMIT;
     END IF;
 END
-
+--Function to output last transactions
+CREATE DEFINER=`admin`@`%` PROCEDURE `UserTransactions`(IN AccountID INT)
+BEGIN
+SELECT * FROM transactions WHERE from_account = AccountID
+UNION ALL
+SELECT * FROM transactions WHERE to_account = AccountID ORDER BY timestamp DESC;
+END
