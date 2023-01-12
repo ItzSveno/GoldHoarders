@@ -55,8 +55,10 @@ class User extends BaseModel
             throw new \Exception("Email already exists");
         }
 
+        $hashedPass = password_hash($user->password, PASSWORD_ARGON2ID);
+
         $statement = $connection->prepare("INSERT INTO users (name, email, password) VALUES (:name, :email, :password)");
-        $statement->execute(['name' => $user->name, 'email' => $user->email, 'password' => $user->password]);
+        $statement->execute(['name' => $user->name, 'email' => $user->email, 'password' => $hashedPass]);
 
         $user->id = $connection->lastInsertId();
         return $user;
@@ -72,7 +74,7 @@ class User extends BaseModel
         return $this;
     }
 
-    public static function delete(int $id) : void
+    public static function delete(int $id): void
     {
         $connection = Database::getConnection();
 
@@ -80,17 +82,16 @@ class User extends BaseModel
         $statement->execute(['id' => $id]);
     }
 
-    public static function login(string $email, string $password): User
+    public static function login(string $email, string $password): void
     {
         $connection = Database::getConnection();
 
-        $statement = $connection->prepare("SELECT * FROM users WHERE email = :email AND password = :password");
-        $statement->execute(['email' => $email, 'password' => $password]);
+        $statement = $connection->prepare("SELECT * FROM users WHERE email = :email");
+        $statement->execute(['email' => $email]);
         $result = $statement->fetch();
 
-        if ($result) {
-            return new User($result['id'], $result['name'], $result['email'], $result['password']);
-                    //TODO: Create session
+        if ($result && password_verify($password, $result['password'])) {
+            $_SESSION['id'] = $result['id'];
         } else {
             throw new \Exception("Invalid credentials");
         }
@@ -98,16 +99,13 @@ class User extends BaseModel
 
     public static function logout(): void
     {
-        //TODO: Destroy session
+        session_destroy();
     }
 
-    public static function register(string $name, string $email, string $password): User
+    public static function register(string $name, string $email, string $password): void
     {
-        $connection = Database::getConnection();
-
         $user = User::create(new User(0, $name, $email, $password));
 
-        //TODO: Create session
-        return $user;
+        $_SESSION['id'] = $user->id;
     }
 }
