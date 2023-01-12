@@ -1,11 +1,22 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Model;
 
 use PDO;
+
 require __DIR__ . '../../config/config.php';
-class Database {
-    public function __construct() {
-        $this->connection = new PDO("mysql:host=$host, dbname=$db", $user, $password);
+class Database
+{
+    static $connection;
+
+    public static function getConnection(): PDO
+    {
+        if (!isset($connection)) {
+            $connection = new PDO("mysql:host=$host, dbname=$db", $user, $password);
+        }
+
+        return $connection;
     }
 }

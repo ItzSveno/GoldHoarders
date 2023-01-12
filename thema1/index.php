@@ -18,3 +18,4 @@ $actionName = strtolower(array_shift($urlParams)).'Action';
 $controller = new $controllerName;
 
 $controller->$actionName();
+
