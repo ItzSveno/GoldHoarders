@@ -5,7 +5,7 @@ USE bank;
 CREATE TABLE users (
   id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   name VARCHAR(255) NOT NULL,
-  email VARCHAR(255) NOT NULL,
+  email VARCHAR(255) NOT NULL UNIQUE,
   password VARCHAR(255) NOT NULL
 );
 
@@ -37,7 +37,7 @@ BEGIN
 	END IF;
 	Return BalStatus;
 END
---Function to TransferAmount
+--Procedure to TransferAmount
 CREATE DEFINER=`admin`@`%` PROCEDURE `TransferAmount`(IN AccountFromID INTEGER,IN AccountToID INTEGER,IN Amount DECIMAL(10,2))
 BEGIN
 	IF(Amount > 0 AND (SELECT EnoughBalance(AccountFromID, Amount)) = 1) THEN
@@ -48,7 +48,7 @@ BEGIN
 		COMMIT;
     END IF;
 END
---Function to output last transactions
+--Procedure to output last transactions
 CREATE DEFINER=`admin`@`%` PROCEDURE `UserTransactions`(IN AccountID INT)
 BEGIN
 SELECT * FROM transactions WHERE from_account = AccountID
