@@ -7,6 +7,10 @@ use Model\Transaction;
 class TransactionController extends BaseController {
     public function index() {
         $transactions = Transaction::all();
+
+        foreach ($transactions as $transaction) {
+            echo json_encode(['from_account_id' => $transaction->from_account_id, 'to_account_id' => $transaction->to_account_id, 'amount' => $transaction->amount, 'timestamp' => $transaction->timestamp]);
+        }
     }
 
     public function indexOfSender($id) {
@@ -15,6 +19,10 @@ class TransactionController extends BaseController {
         }
 
         $transactions = Transaction::allOfSender($id);
+
+        foreach ($transactions as $transaction) {
+            echo json_encode(['from_account_id' => $transaction->from_account_id, 'to_account_id' => $transaction->to_account_id, 'amount' => $transaction->amount, 'timestamp' => $transaction->timestamp]);
+        }
     }
 
     public function indexOfReceiver($id) {
@@ -23,6 +31,10 @@ class TransactionController extends BaseController {
         }
 
         $transactions = Transaction::allOfReceiver($id);
+
+        foreach ($transactions as $transaction) {
+            echo json_encode(['from_account_id' => $transaction->from_account_id, 'to_account_id' => $transaction->to_account_id, 'amount' => $transaction->amount, 'timestamp' => $transaction->timestamp]);
+        }
     }
 
     public function show($id) {
@@ -31,6 +43,8 @@ class TransactionController extends BaseController {
         }
 
         $transaction = Transaction::find($id);
+
+        echo json_encode(['from_account_id' => $transaction->from_account_id, 'to_account_id' => $transaction->to_account_id, 'amount' => $transaction->amount, 'timestamp' => $transaction->timestamp]);
     }
 
     public function create(Transaction $transaction) {
@@ -40,6 +54,8 @@ class TransactionController extends BaseController {
         }
 
         $transaction = Transaction::create($transaction);
+
+        echo json_encode(['from_account_id' => $transaction->from_account_id, 'to_account_id' => $transaction->to_account_id, 'amount' => $transaction->amount, 'timestamp' => $transaction->timestamp]);
     }
 
     public function update(Transaction $transaction) {
@@ -48,14 +64,18 @@ class TransactionController extends BaseController {
             $transaction = new Transaction($data['id'], $data['from_account_id'], $data['to_account_id'], $data['amount'], $data['timestamp']);
         }
 
-        $res = $transaction->update();
+        $transaction = $transaction->update();
+
+        echo json_encode(['from_account_id' => $transaction->from_account_id, 'to_account_id' => $transaction->to_account_id, 'amount' => $transaction->amount, 'timestamp' => $transaction->timestamp]);
     }
 
     public function delete($id) {
         if (!isset($id)) {
             $id = $_GET['id'];
         }
-        
-        $deleted = Transaction::delete($id);
+
+        Transaction::delete($id);
+
+        echo json_encode(['deleted' => "$id deleted"]);
     }
 }

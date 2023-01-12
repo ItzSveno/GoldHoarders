@@ -11,7 +11,10 @@ class UserController extends BaseController
     public function index()
     {
         $users = User::all();
-        //return res
+
+        foreach ($users as $user) {
+            echo json_encode(['id' => $user->id, 'name' => $user->name, 'email' => $user->email, 'password' => $user->password]);
+        }
     }
 
     public function show($id)
@@ -21,7 +24,8 @@ class UserController extends BaseController
         }
 
         $user = User::find($id);
-        //return res
+
+        echo json_encode(['id' => $user->id, 'name' => $user->name, 'email' => $user->email, 'password' => $user->password]);
     }
 
     public function create(User $user)
@@ -32,7 +36,8 @@ class UserController extends BaseController
         }
 
         $user = User::create($user);
-        //return res
+
+        echo json_encode(['id' => $user->id, 'name' => $user->name, 'email' => $user->email, 'password' => $user->password]);
     }
 
     public function update(User $user)
@@ -42,8 +47,9 @@ class UserController extends BaseController
             $user = new User($data['id'], $data['name'], $data['email'], $data['password']);
         }
 
-        $res = $user->update();
-        //return res
+        $user = $user->update();
+
+        echo json_encode(['id' => $user->id, 'name' => $user->name, 'email' => $user->email, 'password' => $user->password]);
     }
 
     public function delete($id)
@@ -51,7 +57,9 @@ class UserController extends BaseController
         if (!isset($id)) {
             $id = $_GET['id'];
         }
-        
+
         User::delete($id);
+
+        echo json_encode(['deleted' => "$id deleted"]);
     }
 }

@@ -12,6 +12,10 @@ class AccountController extends BaseController
     public function index()
     {
         $accounts = Account::all();
+
+        foreach($accounts as $account) {
+            echo json_encode(['balance' => $account->balance, 'type' => $account->type->toString(), 'user_id' => $account->user_id, 'timestamp' => $account->timestamp]);
+        }
     }
 
     public function indexOfUser($id)
@@ -21,6 +25,11 @@ class AccountController extends BaseController
         }
 
         $accounts = Account::allOfUser($id);
+
+        foreach($accounts as $account) {
+            echo json_encode(['balance' => $account->balance, 'type' => $account->type->toString(), 'user_id' => $account->user_id, 'timestamp' => $account->timestamp]);
+        }
+        
     }
 
     public function show($id)
@@ -30,6 +39,7 @@ class AccountController extends BaseController
         }
 
         $account = Account::find($id);
+        echo json_encode(['balance' => $account->balance, 'type' => $account->type->toString(), 'user_id' => $account->user_id, 'timestamp' => $account->timestamp]);
     }
 
     public function create(Account $account)
@@ -40,6 +50,7 @@ class AccountController extends BaseController
         }
 
         $account = Account::create($account);
+        echo json_encode(['balance' => $account->balance, 'type' => $account->type->toString(), 'user_id' => $account->user_id, 'timestamp' => $account->timestamp]);
     }
 
     public function update(Account $account)
@@ -49,7 +60,8 @@ class AccountController extends BaseController
             $account = new Account($data['id'], $data['balance'],  Type::fromString($data['type']), $data['user_id'], $data['timestamp']);
         }
 
-        $res = $account->update();
+        $account = $account->update();
+        echo json_encode(['balance' => $account->balance, 'type' => $account->type->toString(), 'user_id' => $account->user_id, 'timestamp' => $account->timestamp]);
     }
 
     public function delete($id)
@@ -58,6 +70,8 @@ class AccountController extends BaseController
             $id = $_GET['id'];
         }
 
-        $deleted = Account::delete($id);
+        Account::delete($id);
+
+        echo json_encode(['deleted' => "$id deleted"]);
     }
 }
