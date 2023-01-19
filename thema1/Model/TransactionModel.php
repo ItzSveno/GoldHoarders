@@ -28,28 +28,12 @@ class Transaction extends BaseModel
         return $transactions;
     }
 
-    public static function allOfSender(int $sender_id): array
+    public static function allOfAccount(int $account_id): array
     {
         $connection = Database::getConnection();
 
-        $statement = $connection->prepare("SELECT * FROM transactions WHERE from_account_id = :from_account_id");
-        $statement->execute(['from_account_id' => $sender_id]);
-        $result = $statement->fetchAll();
-
-        $transactions = [];
-        foreach ($result as $row) {
-            $transactions[] = new Transaction($row['id'], $row['from_account_id'], $row['to_account_id'], $row['amount'], new DateTime($row['timestamp']));
-        }
-
-        return $transactions;
-    }
-
-    public static function allOfReceiver(int $receiver_id): array
-    {
-        $connection = Database::getConnection();
-
-        $statement = $connection->prepare("SELECT * FROM transactions WHERE to_account_id = :to_account_id");
-        $statement->execute(['to_account_id' => $receiver_id]);
+        $statement = $connection->prepare("exec UserTransactions(:account_id)");
+        $statement->execute(['account_id' => $account_id]);
         $result = $statement->fetchAll();
 
         $transactions = [];
@@ -75,11 +59,11 @@ class Transaction extends BaseModel
     {
         $connection = Database::getConnection();
 
-        $statement = $connection->prepare("INSERT INTO transactions (from_account_id, to_account_id, amount, timestamp) VALUES (:from_account_id, :to_account_id, :amount, :timestamp)");
-        $statement->execute(['from_account_id' => $transaction->from_account_id, 'to_account_id' => $transaction->to_account_id, 'amount' => $transaction->amount, 'timestamp' => $transaction->timestamp->format('Y-m-d H:i:s')]);
+        $statement = $connection->prepare("exec TransferAmount(:from_account_id, :to_account_id, :amount)");
+        $statement->execute(['from_account_id' => $transaction->from_account_id, 'to_account_id' => $transaction->to_account_id, 'amount' => $transaction->amount]);
+        $result = $statement->fetch();
 
-        $transaction->id = $connection->lastInsertId();
-        return $transaction;
+        return new Transaction($result['id'], $result['from_account_id'], $result['to_account_id'], $result['amount'], new DateTime($result['timestamp']));
     }
 
     public function update(): Transaction

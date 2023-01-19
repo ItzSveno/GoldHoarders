@@ -18,7 +18,7 @@ class TransactionController extends BaseController {
             $id = $_GET['id'];
         }
 
-        $transactions = Transaction::allOfSender($id);
+        $transactions = Transaction::allOfAccount($id);
 
         foreach ($transactions as $transaction) {
             echo json_encode(['from_account_id' => $transaction->from_account_id, 'to_account_id' => $transaction->to_account_id, 'amount' => $transaction->amount, 'timestamp' => $transaction->timestamp]);
@@ -30,7 +30,7 @@ class TransactionController extends BaseController {
             $id = $_GET['id'];
         }
 
-        $transactions = Transaction::allOfReceiver($id);
+        $transactions = Transaction::allOfAccount($id);
 
         foreach ($transactions as $transaction) {
             echo json_encode(['from_account_id' => $transaction->from_account_id, 'to_account_id' => $transaction->to_account_id, 'amount' => $transaction->amount, 'timestamp' => $transaction->timestamp]);
