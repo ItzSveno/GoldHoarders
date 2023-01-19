@@ -10,6 +10,7 @@ config/config.php
 *.exe
 *.o
 *.so
+*.sqlite
 
 # Packages #
 ############
@@ -22,4 +23,5 @@ config/config.php
 *.tar
 *.zip
 
+vendor
 
