@@ -24,7 +24,7 @@ class Account implements BaseModel
 
         $accounts = [];
         foreach ($result as $row) {
-            $accounts[] = new Account($row['id'], $row['balance'], Type::fromString($row['type']), $row['user_id'], new DateTime($row['timestamp']));
+            $accounts[] = new Account($row['id'], (float)$row['balance'], Type::fromString(strtoupper($row['type'])), $row['user_id'], new DateTime($row['timestamp']));
         }
 
         return $accounts;
@@ -64,7 +64,7 @@ class Account implements BaseModel
         $statement = $connection->prepare("INSERT INTO accounts (balance, type, user_id, timestamp) VALUES (:balance, :type, :user_id, :timestamp)");
         $statement->execute([
             'balance' => $account->balance,
-            'type' => $account->type->toString(),
+            'type' => strtoupper($account->type->toString()),
             'user_id' => $account->user_id,
             'timestamp' => $account->timestamp->format('Y-m-d H:i:s'),
         ]);
@@ -82,7 +82,7 @@ class Account implements BaseModel
         $statement->execute([
             'id' => $this->id,
             'balance' => $this->balance,
-            'type' => $this->type->toString(),
+            'type' => strtoupper($this->type->toString()),
             'user_id' => $this->user_id,
             'timestamp' => $this->timestamp->format('Y-m-d H:i:s'),
         ]);

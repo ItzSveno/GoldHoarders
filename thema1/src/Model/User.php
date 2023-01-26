@@ -60,7 +60,7 @@ class User implements BaseModel
         $statement = $connection->prepare("INSERT INTO users (name, email, password) VALUES (:name, :email, :password)");
         $statement->execute(['name' => $user->name, 'email' => $user->email, 'password' => $hashedPass]);
 
-        $user->id = $connection->lastInsertId();
+        $user->id = (int)$connection->lastInsertId();
         return $user;
     }
 
