@@ -1,6 +1,7 @@
 # Don't track content of these folders
 config/config.php
 .idea
+vendor/
 
 # Compiled source #
 ###################

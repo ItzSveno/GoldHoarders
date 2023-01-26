@@ -1,11 +1,23 @@
 {
-    "require": {
-        "doctrine/orm": "^2.11.0",
-        "doctrine/dbal": "^3.2",
-        "symfony/yaml": "^5.4",
-        "symfony/cache": "^5.4"
-    },
-    "autoload": {
-        "psr-0": {"": "src/"}
+  "name": "dlanaras/thema2",
+  "description": "i hoard da gold",
+  "type": "project",
+  "license": "PHP",
+  "autoload": {
+    "psr-4": {
+      "Dlanaras\\Thema2\\": "src/"
     }
+  },
+  "authors": [
+    {
+      "name": "dlanaras",
+      "email": "70207362+dlanaras@users.noreply.github.com"
+    }
+  ],
+  "require": {
+    "doctrine/orm": "^2.11.0",
+    "doctrine/dbal": "^3.2",
+    "symfony/yaml": "^5.4",
+    "symfony/cache": "^5.4"
+  }
 }
