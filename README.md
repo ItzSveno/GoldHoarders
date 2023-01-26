@@ -78,5 +78,5 @@ Wie möchten eine Web API für eine Bankapplikation erstellen. Dafür benutzen w
 #### /create POST - $from_account_id, $to_account_id, $amount
 
 ## Reflektion
-Mit wie unser Projekt herausgekommen ist sind wir zufrieden. Wir hatten eigentlich noch geplant die thema3 Aufgabe zu erledigen, nun könnten wir damit nicht beginnen, da wir dafür nicht genügend Zeit hatten.
+Mit wie unser Projekt herausgekommen ist sind wir zufrieden. Wir hatten eigentlich noch geplant die thema3 Aufgabe zu erledigen, nun könnten wir damit nicht beginnen, da wir dafür nicht genügend viel Zeit hatten.
 Für nächstes Mal würden wir uns vielleicht die Zeit besser aufteilen, damit wir nicht an den letzten wochen mehr als am Anfang arbeiten müssen.
