@@ -49,9 +49,9 @@ class User implements BaseModel
         // check if email exists already
         $statement = $connection->prepare("SELECT * FROM users WHERE email = :email");
         $statement->execute(['email' => $user->email]);
-        $user = $statement->fetch();
+        $result = $statement->fetch();
 
-        if ($user) {
+        if ($result) {
             throw new \Exception("Email already exists");
         }
 
