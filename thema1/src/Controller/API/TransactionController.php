@@ -14,10 +14,9 @@ class TransactionController implements BaseController
         }
     }
 
-    public function indexOfSender($id) {
-        if(!isset($id)) {
-            $id = $_GET['id'];
-        }
+    // (int $id)
+    public function indexOfSender() {
+        $id = $_GET['id'];
 
         $transactions = Transaction::allOfAccount($id);
 
@@ -26,10 +25,9 @@ class TransactionController implements BaseController
         }
     }
 
-    public function indexOfReceiver($id) {
-        if (!isset($id)) {
-            $id = $_GET['id'];
-        }
+    // (int $id)
+    public function indexOfReceiver() {
+        $id = $_GET['id'];
 
         $transactions = Transaction::allOfAccount($id);
 
@@ -38,42 +36,38 @@ class TransactionController implements BaseController
         }
     }
 
-    public function show($id) {
-        if (!isset($id)) {
-            $id = $_GET['id'];
-        }
+    // (int $id)
+    public function show() {
+        $id = $_GET['id'];
 
         $transaction = Transaction::find($id);
 
         echo json_encode(['from_account_id' => $transaction->from_account_id, 'to_account_id' => $transaction->to_account_id, 'amount' => $transaction->amount, 'timestamp' => $transaction->timestamp]);
     }
 
-    public function create($transaction) {
-        if (!isset($transaction)) {
-            $data = json_decode(file_get_contents('php://input'), true);
-            $transaction = new Transaction($data['id'], $data['from_account_id'], $data['to_account_id'], $data['amount'], $data['timestamp']);
-        }
+    // (Transaction $transaction)
+    public function create() {
+        $data = json_decode(file_get_contents('php://input'), true);
+        $transaction = new Transaction($data['id'], $data['from_account_id'], $data['to_account_id'], $data['amount'], $data['timestamp']);
 
         $transaction = Transaction::create($transaction);
 
         echo json_encode(['from_account_id' => $transaction->from_account_id, 'to_account_id' => $transaction->to_account_id, 'amount' => $transaction->amount, 'timestamp' => $transaction->timestamp]);
     }
 
-    public function update($transaction) {
-        if (!isset($transaction)) {
-            $data = json_decode(file_get_contents('php://input'), true);
-            $transaction = new Transaction($data['id'], $data['from_account_id'], $data['to_account_id'], $data['amount'], null);
-        }
+    // (Transaction $transaction)
+    public function update() {
+        $data = json_decode(file_get_contents('php://input'), true);
+        $transaction = new Transaction($data['id'], $data['from_account_id'], $data['to_account_id'], $data['amount'], null);
 
         $transaction = $transaction->update();
 
         echo json_encode(['from_account_id' => $transaction->from_account_id, 'to_account_id' => $transaction->to_account_id, 'amount' => $transaction->amount, 'timestamp' => $transaction->timestamp]);
     }
 
-    public function delete($id) {
-        if (!isset($id)) {
-            $id = $_GET['id'];
-        }
+    // (int $id)
+    public function delete() {
+        $id = $_GET['id'];
 
         Transaction::delete($id);
 

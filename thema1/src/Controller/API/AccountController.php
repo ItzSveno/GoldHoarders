@@ -18,7 +18,8 @@ class AccountController implements BaseController
         }
     }
 
-    public function indexOfUser($id)
+    // (int $id)
+    public function indexOfUser()
     {
         if (!isset($id)) {
             $id = $_GET['id'];
@@ -32,43 +33,39 @@ class AccountController implements BaseController
         
     }
 
-    public function show($id)
+    // (int $id)
+    public function show()
     {
-        if (!isset($id)) {
-            $id = $_GET['id'];
-        }
+        $id = $_GET['id'];
 
         $account = Account::find($id);
         echo json_encode(['balance' => $account->balance, 'type' => $account->type->toString(), 'user_id' => $account->user_id, 'timestamp' => $account->timestamp]);
     }
 
-    public function create($account)
+    // (Account $account)
+    public function create()
     {
-        if (!isset($account)) {
-            $data = json_decode(file_get_contents('php://input'), true);
-            $account = new Account($data['id'], $data['balance'],  Type::fromString($data['type']), $data['user_id'], null);
-        }
+        $data = json_decode(file_get_contents('php://input'), true);
+        $account = new Account($data['id'], $data['balance'],  Type::fromString($data['type']), $data['user_id'], null);
 
         $account = Account::create($account);
         echo json_encode(['balance' => $account->balance, 'type' => $account->type->toString(), 'user_id' => $account->user_id, 'timestamp' => $account->timestamp]);
     }
 
-    public function update($account)
+    // (Account $account)
+    public function update()
     {
-        if (!isset($account)) {
-            $data = json_decode(file_get_contents('php://input'), true);
-            $account = new Account($data['id'], $data['balance'],  Type::fromString($data['type']), $data['user_id'], null);
-        }
+        $data = json_decode(file_get_contents('php://input'), true);
+        $account = new Account($data['id'], $data['balance'],  Type::fromString($data['type']), $data['user_id'], null);
 
         $account = $account->update();
         echo json_encode(['balance' => $account->balance, 'type' => $account->type->toString(), 'user_id' => $account->user_id, 'timestamp' => $account->timestamp]);
     }
 
-    public function delete($id)
+    // (int $id)
+    public function delete()
     {
-        if (!isset($id)) {
-            $id = $_GET['id'];
-        }
+        $id = $_GET['id'];
 
         Account::delete($id);
 

@@ -17,46 +17,42 @@ class UserController implements BaseController
         }
     }
 
-    public function show($id)
+    // (int $id)
+    public function show()
     {
-        if (!isset($id)) {
-            $id = $_GET['id'];
-        }
+        $id = $_GET['id'];
 
         $user = User::find($id);
 
         echo json_encode(['id' => $user->id, 'name' => $user->name, 'email' => $user->email, 'password' => $user->password]);
     }
 
-    public function create($user)
+    // (User $user)
+    public function create()
     {
-        if(!isset($user)) {
-            $data = json_decode(file_get_contents('php://input'), true);
-            $user = new User($data['id'], $data['name'], $data['email'], $data['password']);
-        }
+        $data = json_decode(file_get_contents('php://input'), true);
+        $user = new User($data['id'], $data['name'], $data['email'], $data['password']);
 
         $user = User::create($user);
 
         echo json_encode(['id' => $user->id, 'name' => $user->name, 'email' => $user->email, 'password' => $user->password]);
     }
 
-    public function update($user)
+    // (User $user)
+    public function update()
     {
-        if (!isset($user)) {
-            $data = json_decode(file_get_contents('php://input'), true);
-            $user = new User($data['id'], $data['name'], $data['email'], $data['password']);
-        }
+        $data = json_decode(file_get_contents('php://input'), true);
+        $user = new User($data['id'], $data['name'], $data['email'], $data['password']);
 
         $user = $user->update();
 
         echo json_encode(['id' => $user->id, 'name' => $user->name, 'email' => $user->email, 'password' => $user->password]);
     }
 
-    public function delete($id)
+    //  (int $id)
+    public function delete()
     {
-        if (!isset($id)) {
-            $id = $_GET['id'];
-        }
+        $id = $_GET['id'];
 
         User::delete($id);
 

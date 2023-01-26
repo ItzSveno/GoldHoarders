@@ -8,12 +8,11 @@ use Model\User;
 
 class AuthController
 {
-    public function login($email, $password)
+    // (string $email, string $password)
+    public function login()
     {
-        if (!isset($email) || !isset($password)) {
-            $email = $_POST['email'];
-            $password = $_POST['password'];
-        }
+        $email = $_POST['email'];
+        $password = $_POST['password'];
 
         User::login($email, $password);
     }
@@ -23,14 +22,13 @@ class AuthController
         User::logout();
     }
 
-    public function register($user)
+    // (User $user)
+    public function register()
     {
-        if (!isset($user)) {
-            $user->name = $_POST['name'];
-            $user->email = $_POST['email'];
-            $user->password = $_POST['password'];
-        }
+        $name = $_POST['name'];
+        $email = $_POST['email'];
+        $password = $_POST['password'];
 
-        User::register($user->name, $user->email, $user->password);
+        User::register($name, $email, $password);
     }
 }
