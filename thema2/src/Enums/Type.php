@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Enums;
+namespace GoldHoarders\Enums;
 
 enum Type
 {

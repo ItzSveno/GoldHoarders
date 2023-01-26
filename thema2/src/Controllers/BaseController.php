@@ -1,6 +1,6 @@
 <?php
 
-namespace Controller\API;
+namespace GoldHoarders\Controllers;
 
 interface BaseController {
     public function index();

@@ -8,7 +8,7 @@ $urlParams = explode('/', $_SERVER['REQUEST_URI']);
 
 array_shift($urlParams); // remove first element, which is empty
 
-$controllerNamespace = 'Controller\\API\\';
+$controllerNamespace = '\\GoldHoarders\\Controllers\\';
 
 // might need some further validation here
 $controllerName = $controllerNamespace . ucfirst(array_shift($urlParams)).'Controller';

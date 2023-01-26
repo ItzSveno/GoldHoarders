@@ -5,7 +5,7 @@
   "license": "PHP",
   "autoload": {
     "psr-4": {
-      "Dlanaras\\Thema2\\": "src/"
+      "GoldHoarders\\": "src/"
     }
   },
   "authors": [

@@ -1,6 +1,6 @@
 <?php
 
-namespace ORM;
+namespace GoldHoarders\ORM;
 
 use Doctrine\DBAL\DriverManager;
 use Doctrine\ORM\EntityManager;
@@ -10,11 +10,11 @@ readonly class EM {
     public static function getEntityManager(): EntityManager
     {
         $metaDataConfig = ORMSetup::createAttributeMetadataConfiguration(
-            paths: [__DIR__],
+            paths: [__DIR__."/../models/"],
             isDevMode: true,
         );
 
-        $config = require_once(__DIR__ . '/../config/config.php');
+        $config = require_once(__DIR__ . '/../../config/config.php');
 
         $connection = DriverManager::getConnection(
             [
@@ -26,6 +26,8 @@ readonly class EM {
             ],
             $metaDataConfig,
         );
+
+        $connection->getDatabasePlatform()->registerDoctrineTypeMapping('enum', 'string');
 
         $entityManager = new EntityManager($connection, $metaDataConfig);
         

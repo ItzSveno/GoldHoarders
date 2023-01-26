@@ -2,19 +2,19 @@
 
 declare(strict_types=1);
 
-namespace Controller\API;
+namespace GoldHoarders\Controllers;
 
-use Model\User;
-use Model\UserDto;
-use ORM\EM;
+use GoldHoarders\Models\User;
+use GoldHoarders\ORM\EM;
 
 class AuthController
 {
     // (string $email, string $password)
     public function login()
     {
-        $email = $_POST['email'];
-        $password = $_POST['password'];
+        $data = json_decode(file_get_contents('php://input'), true);
+        $email = $data['email'];
+        $password = $data['password'];
 
         $result = EM::getEntityManager()->getRepository(User::class)->findOneBy(['email' => $email]);
 
@@ -23,7 +23,6 @@ class AuthController
         } else {
             throw new \Exception("Invalid credentials");
         }
-
     }
 
     public function logout()
@@ -34,22 +33,20 @@ class AuthController
     // (User $user)
     public function register()
     {
-        $name = $_POST['name'];
-        $email = $_POST['email'];
-        $password = $_POST['password'];
+        $data = json_decode(file_get_contents('php://input'), true);
 
-        $user = EM::getEntityManager()->getRepository(User::class)->findOneBy(['email' => $email]);
+        $name =  $data['name'];
+        $email =  $data['email'];
+        $password =  $data['password'];
 
-        if ($user) {
-            throw new \Exception("Email already exists");
-        }
+        $user = new User();
+        $user->setName($name);
+        $user->setEmail($email);
+        $user->setPassword(password_hash($password, PASSWORD_ARGON2I));
 
-        $hashedPass = password_hash($password, PASSWORD_ARGON2ID);
-
-        $user = new UserDto(0, $name, $email, $hashedPass);
         EM::getEntityManager()->persist($user);
         EM::getEntityManager()->flush();
 
-        $_SESSION['id'] = $user->id;
+        $_SESSION['id'] = $user->getId();
     }
 }
