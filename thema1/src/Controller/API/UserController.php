@@ -28,7 +28,7 @@ class UserController implements BaseController
         echo json_encode(['id' => $user->id, 'name' => $user->name, 'email' => $user->email, 'password' => $user->password]);
     }
 
-    public function create(User $user)
+    public function create($user)
     {
         if(isset($user)) {
             $data = json_decode(file_get_contents('php://input'), true);
@@ -40,7 +40,7 @@ class UserController implements BaseController
         echo json_encode(['id' => $user->id, 'name' => $user->name, 'email' => $user->email, 'password' => $user->password]);
     }
 
-    public function update(User $user)
+    public function update($user)
     {
         if (isset($user)) {
             $data = json_decode(file_get_contents('php://input'), true);

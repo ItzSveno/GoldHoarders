@@ -42,22 +42,22 @@ class AccountController implements BaseController
         echo json_encode(['balance' => $account->balance, 'type' => $account->type->toString(), 'user_id' => $account->user_id, 'timestamp' => $account->timestamp]);
     }
 
-    public function create(Account $account)
+    public function create($account)
     {
         if (isset($account)) {
             $data = json_decode(file_get_contents('php://input'), true);
-            $account = new Account($data['id'], $data['balance'],  Type::fromString($data['type']), $data['user_id'], $data['timestamp']);
+            $account = new Account($data['id'], $data['balance'],  Type::fromString($data['type']), $data['user_id'], null);
         }
 
         $account = Account::create($account);
         echo json_encode(['balance' => $account->balance, 'type' => $account->type->toString(), 'user_id' => $account->user_id, 'timestamp' => $account->timestamp]);
     }
 
-    public function update(Account $account)
+    public function update($account)
     {
         if (isset($account)) {
             $data = json_decode(file_get_contents('php://input'), true);
-            $account = new Account($data['id'], $data['balance'],  Type::fromString($data['type']), $data['user_id'], $data['timestamp']);
+            $account = new Account($data['id'], $data['balance'],  Type::fromString($data['type']), $data['user_id'], null);
         }
 
         $account = $account->update();

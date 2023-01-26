@@ -10,7 +10,7 @@ use Enum\Type;
 class Account implements BaseModel
 {
 
-    public function __construct(public int $id, public float $balance, public Type $type, public int $user_id, public DateTime $timestamp)
+    public function __construct(public int $id, public float $balance, public Type $type, public int $user_id, public ?DateTime $timestamp)
     {
     }
 
@@ -57,7 +57,7 @@ class Account implements BaseModel
         return new Account($result['id'], $result['balance'], Type::fromString($result['type']), $result['user_id'], new DateTime($result['timestamp']));
     }
 
-    public static function create(Account $account): Account
+    public static function create($account): Account
     {
         $connection = Database::getConnection();
 

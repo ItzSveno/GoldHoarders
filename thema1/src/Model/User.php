@@ -42,7 +42,7 @@ class User implements BaseModel
         return new User($result['id'], $result['name'], $result['email'], $result['password']);
     }
 
-    public static function create(User $user): User
+    public static function create($user): User
     {
         $connection = Database::getConnection();
 

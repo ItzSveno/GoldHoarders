@@ -4,8 +4,7 @@ namespace Controller\API;
 
 use Model\Transaction;
 
-class TransactionController implements BaseController
-{
+class TransactionController extends BaseController {
     public function index() {
         $transactions = Transaction::all();
 
