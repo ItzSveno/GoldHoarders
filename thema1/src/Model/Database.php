@@ -15,7 +15,7 @@ class Database
         $config = require_once(__DIR__ . '/../../../config/config.php');
         
         if (!isset($connection)) {
-            $connection = new PDO("mysql:host=".$config['host'].", dbname=".$config['db']."", $config['user'], $config['password']);
+            $connection = new PDO("mysql:host=".$config['host'].";dbname=".$config['db'], $config['user'], $config['password']);
         }
 
         return $connection;
