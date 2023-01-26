@@ -1,5 +1,7 @@
 <?php
 
+namespace Model;
+
 use Enum\Type;
 
 class AccountDto

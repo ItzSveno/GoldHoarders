@@ -1,5 +1,7 @@
 <?php
 
+namespace Model;
+
 class UserDto
 {
     public function __construct(

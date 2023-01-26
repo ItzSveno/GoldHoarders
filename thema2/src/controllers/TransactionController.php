@@ -4,7 +4,8 @@ namespace Controller\API;
 
 use Model\Transaction;
 
-class TransactionController extends BaseController {
+class TransactionController implements BaseController
+{
     public function index() {
         $transactions = Transaction::all();
 
@@ -47,7 +48,7 @@ class TransactionController extends BaseController {
         echo json_encode(['from_account_id' => $transaction->from_account_id, 'to_account_id' => $transaction->to_account_id, 'amount' => $transaction->amount, 'timestamp' => $transaction->timestamp]);
     }
 
-    public function create(Transaction $transaction) {
+    public function create($transaction) {
         if (!isset($transaction)) {
             $data = json_decode(file_get_contents('php://input'), true);
             $transaction = new Transaction($data['id'], $data['from_account_id'], $data['to_account_id'], $data['amount'], $data['timestamp']);
@@ -58,10 +59,10 @@ class TransactionController extends BaseController {
         echo json_encode(['from_account_id' => $transaction->from_account_id, 'to_account_id' => $transaction->to_account_id, 'amount' => $transaction->amount, 'timestamp' => $transaction->timestamp]);
     }
 
-    public function update(Transaction $transaction) {
+    public function update($transaction) {
         if (!isset($transaction)) {
             $data = json_decode(file_get_contents('php://input'), true);
-            $transaction = new Transaction($data['id'], $data['from_account_id'], $data['to_account_id'], $data['amount'], $data['timestamp']);
+            $transaction = new Transaction($data['id'], $data['from_account_id'], $data['to_account_id'], $data['amount'], null);
         }
 
         $transaction = $transaction->update();

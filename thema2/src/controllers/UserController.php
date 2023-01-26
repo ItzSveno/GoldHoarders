@@ -4,17 +4,13 @@ declare(strict_types=1);
 
 namespace Controller\API;
 
-
-use Doctrine\ORM\Tools\Console\EntityManagerProvider\SingleManagerProvider;
 use Model\User;
 
-class UserController extends BaseController
+class UserController implements BaseController
 {
     public function index()
     {
-        
-        $entityManager->getRepositiory("Entities\users")->findAll();
-
+        $users = User::all();
 
         foreach ($users as $user) {
             echo json_encode(['id' => $user->id, 'name' => $user->name, 'email' => $user->email, 'password' => $user->password]);
@@ -32,7 +28,7 @@ class UserController extends BaseController
         echo json_encode(['id' => $user->id, 'name' => $user->name, 'email' => $user->email, 'password' => $user->password]);
     }
 
-    public function create(User $user)
+    public function create($user)
     {
         if(isset($user)) {
             $data = json_decode(file_get_contents('php://input'), true);
@@ -44,7 +40,7 @@ class UserController extends BaseController
         echo json_encode(['id' => $user->id, 'name' => $user->name, 'email' => $user->email, 'password' => $user->password]);
     }
 
-    public function update(User $user)
+    public function update($user)
     {
         if (isset($user)) {
             $data = json_decode(file_get_contents('php://input'), true);

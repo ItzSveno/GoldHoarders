@@ -1,5 +1,7 @@
 <?php
 
+namespace Model;
+
 class TransactionDto
 {
     public function __construct(
