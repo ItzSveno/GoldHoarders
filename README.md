@@ -6,3 +6,77 @@ Wie möchten eine Web API für eine Bankapplikation erstellen. Dafür benutzen w
 ## Unser ERD
 
 ![image](https://raw.githubusercontent.com/ItzSveno/GoldHoarders/main/db/ERD.png)
+
+## Vorbedingungen
+1 PHP installiert und in der PATH Variable gesetzt
+1 Composer installiert und in der PATH Variable gesetzt
+1 MariaDB installiert und gestartet
+1 (In Fall von Thema1) create_db.sql in mariaDB ausführen um die Datenbank zu erstellen
+1 (In Fall von Thema2) php bin/doctrine orm:schema-tool:update --force --dump-sql --complete ausführen um die Datenbank zu erstellen
+
+## Projekt einrichten
+
+### Thema 1
+1 Unter thema1/config/ die Datei config.php erstellen gemäss config.php.example
+1 In thema1/ das Befehl `composer install` ausführen
+
+### Thema 2
+1 Dasselbe wie bei Thema 1
+
+## Hosting
+1 Entweder unter thema1 oder thema2 das Befehl `php -S localhost:{beliebiger Port}` ausführen
+
+## Architektur
+
+### Thema 1
+![thema1](https://raw.githubusercontent.com/ItzSveno/GoldHoarders/main/architecture/thema1_architektur.png)
+
+1 config/ enthält die Konfigurationen für die db
+1 src/Controller/API/ enthält die API Controller
+1 src/Enums/ enthält die jenigen Enums die wir benutzen
+1 src/Model/ enthält die Model Klassen und ein Singleton für die Datenbankverbindung
+
+### Thema 2
+![thema2](https://raw.githubusercontent.com/ItzSveno/GoldHoarders/main/architecture/thema2_architektur.png)
+
+1 bin/ enthält die Doctrine CLI
+1 config/ enthält die Konfigurationen für die db
+1 src/Controllers/ enthält die API Controller
+1 src/Enums/ enthält die jenigen Enums die wir benutzen
+1 src/Models enthält die ORM Models
+1 src/ORM enthält den EntityManager und seine Konfigurationen
+
+## Beschreibung der Applikation
+
+#### Dieses Projekt ist eine Web API für eine Bankapplikation.
+
+## Schnittstellen
+### /auth
+#### /login POST - $email, $password
+#### /register POST - $email, $name, $password
+#### /logout GET - keine Parameter
+
+### /user
+#### /index GET - keine Parameter
+#### /show GET - $id
+#### /create POST - $email, $name, $password
+#### /update POST - $id, $email, $name, $password
+#### /delete GET - $id
+
+### /account
+#### /index GET - keine Parameter
+#### /show GET - $id
+#### /create POST - $user_id, $balance, $type
+#### /update POST - $id, $user_id, $balance, $type
+#### /delete GET - $id
+
+### /transaction
+#### /index GET - keine Parameter
+#### /indexOfReceiver GET - $receiver_id
+#### /indexOfSender GET - $sender_id
+#### /show GET - $id
+#### /create POST - $from_account_id, $to_account_id, $amount
+
+## Reflektion
+Mit wie unser Projekt herausgekommen ist sind wir zufrieden. Wir hatten eigentlich noch geplant die thema3 Aufgabe zu erledigen, nun könnten wir damit nicht beginnen, da wir dafür nicht genügend Zeit hatten.
+Für nächstes Mal würden wir uns vielleicht die Zeit besser aufteilen, damit wir nicht an den letzten wochen mehr als am Anfang arbeiten müssen.
