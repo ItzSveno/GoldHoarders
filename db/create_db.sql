@@ -15,7 +15,7 @@ CREATE TABLE accounts (
   balance DECIMAL(10,2) NOT NULL,
   type ENUM('savings', 'checking') NOT NULL,
   timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  FOREIGN KEY (user_id) REFERENCES users(id)
+  FOREIGN KEY (user_id) REFERENCES users(id) on DELETE CASCADE
 );
 
 CREATE TABLE transactions (
@@ -24,8 +24,8 @@ CREATE TABLE transactions (
   to_account INT NOT NULL,
   amount DECIMAL(10,2) NOT NULL,
   timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  FOREIGN KEY (from_account) REFERENCES accounts(id),
-  FOREIGN KEY (to_account) REFERENCES accounts(id)
+  FOREIGN KEY (from_account) REFERENCES accounts(id)on DELETE CASCADE ,
+  FOREIGN KEY (to_account) REFERENCES accounts(id)on DELETE CASCADE
 );
 --Function to check if theres EnoughBalance
 CREATE DEFINER=`admin`@`%` FUNCTION `EnoughBalance`(AccountID INT, Amount DECIMAL(10,2)) RETURNS int(11)

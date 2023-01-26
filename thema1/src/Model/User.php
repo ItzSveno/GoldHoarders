@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Model;
 
+use mysql_xdevapi\Session;
+
 class User implements BaseModel
 {
 

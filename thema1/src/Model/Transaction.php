@@ -6,7 +6,7 @@ namespace Model;
 
 use DateTime;
 
-class Transaction extends BaseModel
+class Transaction
 {
     public function __construct(public int $id, public int $from_account_id, public int $to_account_id, public float $amount, public ?DateTime $timestamp)
     {
@@ -22,7 +22,7 @@ class Transaction extends BaseModel
 
         $transactions = [];
         foreach ($result as $row) {
-            $transactions[] = new Transaction($row['id'], $row['from_account_id'], $row['to_account_id'], $row['amount'], new DateTime($row['timestamp']));
+            $transactions[] = new Transaction($row['id'], $row['from_account'], $row['to_account'], (float)$row['amount'], new DateTime($row['timestamp']));
         }
 
         return $transactions;
@@ -32,13 +32,13 @@ class Transaction extends BaseModel
     {
         $connection = Database::getConnection();
 
-        $statement = $connection->prepare("exec UserTransactions(:account_id)");
+        $statement = $connection->prepare("CALL UserTransactions(:account_id)");
         $statement->execute(['account_id' => $account_id]);
         $result = $statement->fetchAll();
 
         $transactions = [];
         foreach ($result as $row) {
-            $transactions[] = new Transaction($row['id'], $row['from_account_id'], $row['to_account_id'], $row['amount'], new DateTime($row['timestamp']));
+            $transactions[] = new Transaction($row['id'], $row['from_account'], $row['to_account'], (float)$row['amount'], new DateTime($row['timestamp']));
         }
 
         return $transactions;
@@ -52,35 +52,18 @@ class Transaction extends BaseModel
         $statement->execute(['id' => $id]);
         $result = $statement->fetch();
 
-        return new Transaction($result['id'], $result['from_account_id'], $result['to_account_id'], $result['amount'], new DateTime($result['timestamp']));
+        return new Transaction($result['id'], $result['from_account'], $result['to_account'], (float)$result['amount'], new DateTime($result['timestamp']));
     }
 
-    public static function create(Transaction $transaction): Transaction
+    public static function create($transaction): string
     {
         $connection = Database::getConnection();
 
-        $statement = $connection->prepare("exec TransferAmount(:from_account_id, :to_account_id, :amount)");
+        $statement = $connection->prepare("CALL TransferAmount(:from_account_id, :to_account_id, :amount)");
+
         $statement->execute(['from_account_id' => $transaction->from_account_id, 'to_account_id' => $transaction->to_account_id, 'amount' => $transaction->amount]);
-        $result = $statement->fetch();
 
-        return new Transaction($result['id'], $result['from_account_id'], $result['to_account_id'], $result['amount'], new DateTime($result['timestamp']));
-    }
 
-    public function update(): Transaction
-    {
-        $connection = Database::getConnection();
-
-        $statement = $connection->prepare("UPDATE transactions SET from_account_id = :from_account_id, to_account_id = :to_account_id, amount = :amount, timestamp = :timestamp WHERE id = :id");
-        $statement->execute(['id' => $this->id, 'from_account_id' => $this->from_account_id, 'to_account_id' => $this->to_account_id, 'amount' => $this->amount, 'timestamp' => $this->timestamp->format('Y-m-d H:i:s')]);
-
-        return $this;
-    }
-
-    public static function delete(int $id): void
-    {
-        $connection = Database::getConnection();
-
-        $statement = $connection->prepare("DELETE FROM transactions WHERE id = :id");
-        $statement->execute(['id' => $id]);
+        return "transaction created";
     }
 }

@@ -20,7 +20,7 @@ class UserController implements BaseController
     // (int $id)
     public function show()
     {
-        $id = $_GET['id'];
+        $id = (int)$_GET['id'];
 
         $user = User::find($id);
 
@@ -52,10 +52,11 @@ class UserController implements BaseController
     //  (int $id)
     public function delete()
     {
-        $id = $_GET['id'];
+        $id = (int)$_GET['id'];
 
         User::delete($id);
 
         echo json_encode(['deleted' => "$id deleted"]);
     }
+
 }

@@ -40,7 +40,7 @@ class Account implements BaseModel
 
         $accounts = [];
         foreach ($result as $row) {
-            $accounts[] = new Account($row['id'], $row['balance'], Type::fromString($row['type']), $row['user_id'], new DateTime($row['timestamp']));
+            $accounts[] = new Account($row['id'], (float)$row['balance'], Type::fromString(strtoupper($row['type'])), (int)$row['user_id'], new DateTime($row['timestamp']));
         }
 
         return $accounts;
@@ -54,7 +54,7 @@ class Account implements BaseModel
         $statement->execute(['id' => $id]);
         $result = $statement->fetch();
 
-        return new Account($result['id'], $result['balance'], Type::fromString($result['type']), $result['user_id'], new DateTime($result['timestamp']));
+        return new Account($result['id'], (float)$result['balance'], Type::fromString(strtoupper($result['type'])), $result['user_id'], new DateTime($result['timestamp']));
     }
 
     public static function create($account): Account
@@ -82,7 +82,7 @@ class Account implements BaseModel
         $statement->execute([
             'id' => $this->id,
             'balance' => $this->balance,
-            'type' => strtoupper($this->type->toString()),
+            'type' => $this->type->toString(),
             'user_id' => $this->user_id,
             'timestamp' => $this->timestamp->format('Y-m-d H:i:s'),
         ]);

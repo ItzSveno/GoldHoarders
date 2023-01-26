@@ -11,8 +11,9 @@ class AuthController
     // (string $email, string $password)
     public function login()
     {
-        $email = $_POST['email'];
-        $password = $_POST['password'];
+        $data = json_decode(file_get_contents('php://input'), true);
+        $email = $data['email'];
+        $password = $data['password'];
 
         User::login($email, $password);
     }
@@ -25,9 +26,11 @@ class AuthController
     // (User $user)
     public function register()
     {
-        $name = $_POST['name'];
-        $email = $_POST['email'];
-        $password = $_POST['password'];
+        $data = json_decode(file_get_contents('php://input'), true);
+
+        $name =  $data['name'];
+        $email =  $data['email'];
+        $password =  $data['password'];
 
         User::register($name, $email, $password);
     }
