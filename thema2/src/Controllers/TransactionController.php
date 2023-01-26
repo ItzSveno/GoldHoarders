@@ -4,6 +4,7 @@ namespace GoldHoarders\Controllers;
 
 use DateTime;
 use GoldHoarders\Models\Transaction;
+use GoldHoarders\Models\Account;
 use GoldHoarders\ORM\EM;
 
 class TransactionController
@@ -57,10 +58,22 @@ class TransactionController
         $transaction->setTimestamp(new DateTime());
 
         EM::getEntityManager()->persist($transaction);
-        EM::getEntityManager()->flush();
+
+        if($transaction->getFromAccountId() == $transaction->getToAccountId()) {
+            throw new \Exception("Cannot transfer money to the same account");
+        }
+        else if($transaction->getAmount() <= 0) {
+            throw new \Exception("Amount must be greater than 0");
+        }
+
+
 
         // subtract amount from sender
         $sender = EM::getEntityManager()->getRepository(Account::class)->find($transaction->getFromAccountId());
+
+        if($sender->getBalance() < $transaction->getAmount()) {
+            throw new \Exception("Insufficient funds");
+        }
         $sender->setBalance($sender->getBalance() - $transaction->getAmount());
 
         // add amount to receiver

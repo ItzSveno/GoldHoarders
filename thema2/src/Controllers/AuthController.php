@@ -18,8 +18,8 @@ class AuthController
 
         $result = EM::getEntityManager()->getRepository(User::class)->findOneBy(['email' => $email]);
 
-        if ($result && password_verify($password, $result['password'])) {
-            $_SESSION['id'] = $result['id'];
+        if ($result && password_verify($password, $result->getPassword())) {
+            $_SESSION['id'] = $result->getId();
         } else {
             throw new \Exception("Invalid credentials");
         }
@@ -42,7 +42,7 @@ class AuthController
         $user = new User();
         $user->setName($name);
         $user->setEmail($email);
-        $user->setPassword(password_hash($password, PASSWORD_ARGON2I));
+        $user->setPassword($password);
 
         EM::getEntityManager()->persist($user);
         EM::getEntityManager()->flush();

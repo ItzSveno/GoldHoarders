@@ -47,16 +47,11 @@ class UserController implements BaseController
     public function update()
     {
         $data = json_decode(file_get_contents('php://input'), true);
-        $user = new User();
+        $user = EM::getEntityManager()->getRepository(User::class)->find($data['id']);
         $user->setId((int)$data['id']);
         $user->setName($data['name']);
         $user->setEmail($data['email']);
         $user->setPassword($data['password']);
-
-        $entity = EM::getEntityManager()->getRepository(User::class)->find($user->getId());
-        $entity->setName($user->getName());
-        $entity->setEmail($user->getEmail());
-        $entity->setPassword($user->getPassword());
         
         EM::getEntityManager()->flush();
 
@@ -68,7 +63,8 @@ class UserController implements BaseController
     {
         $id = (int)$_GET['id'];
 
-        EM::getEntityManager()->remove($id);
+        $user = EM::getEntityManager()->getRepository(User::class)->find($id);
+        EM::getEntityManager()->remove($user);
         EM::getEntityManager()->flush();
 
         echo json_encode(['deleted' => "$id deleted"]);
