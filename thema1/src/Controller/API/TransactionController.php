@@ -2,6 +2,7 @@
 
 namespace Controller\API;
 
+use DateTime;
 use Model\Transaction;
 
 class TransactionController implements BaseController
@@ -58,7 +59,7 @@ class TransactionController implements BaseController
     // (Transaction $transaction)
     public function update() {
         $data = json_decode(file_get_contents('php://input'), true);
-        $transaction = new Transaction($data['id'], $data['from_account_id'], $data['to_account_id'], $data['amount'], null);
+        $transaction = new Transaction($data['id'], $data['from_account_id'], $data['to_account_id'], $data['amount'], new DateTime());
 
         $transaction = $transaction->update();
 

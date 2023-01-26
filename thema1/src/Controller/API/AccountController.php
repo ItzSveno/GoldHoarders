@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Controller\API;
 
+use DateTime;
 use Model\Account;
 use Enums\Type;
 
@@ -44,7 +45,7 @@ class AccountController implements BaseController
     public function create()
     {
         $data = json_decode(file_get_contents('php://input'), true);
-        $account = new Account(0, $data['balance'],  Type::fromString($data['type']), $data['user_id'], null);
+        $account = new Account(0, $data['balance'],  Type::fromString($data['type']), $data['user_id'], new DateTime());
 
         $account = Account::create($account);
         echo json_encode(['balance' => $account->balance, 'type' => $account->type->toString(), 'user_id' => $account->user_id, 'timestamp' => $account->timestamp]);
@@ -54,7 +55,7 @@ class AccountController implements BaseController
     public function update()
     {
         $data = json_decode(file_get_contents('php://input'), true);
-        $account = new Account($data['id'], $data['balance'],  Type::fromString($data['type']), $data['user_id'], null);
+        $account = new Account($data['id'], $data['balance'],  Type::fromString($data['type']), $data['user_id'], new DateTime());
 
         $account = $account->update();
         echo json_encode(['balance' => $account->balance, 'type' => $account->type->toString(), 'user_id' => $account->user_id, 'timestamp' => $account->timestamp]);
