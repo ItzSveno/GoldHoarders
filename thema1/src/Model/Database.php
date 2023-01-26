@@ -6,15 +6,16 @@ namespace Model;
 
 use PDO;
 
-require __DIR__ . '/../../config/config.php';
 class Database
 {
     static $connection;
 
     public static function getConnection(): PDO
     {
+        $config = require_once(__DIR__ . '/../../../config/config.php');
+        
         if (!isset($connection)) {
-            $connection = new PDO("mysql:host=$host, dbname=$db", $user, $password);
+            $connection = new PDO("mysql:host=".$config['host'].", dbname=".$config['db']."", $config['user'], $config['password']);
         }
 
         return $connection;
