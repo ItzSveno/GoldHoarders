@@ -48,7 +48,7 @@ class TransactionController implements BaseController
     // (Transaction $transaction)
     public function create() {
         $data = json_decode(file_get_contents('php://input'), true);
-        $transaction = new Transaction($data['id'], $data['from_account_id'], $data['to_account_id'], $data['amount'], $data['timestamp']);
+        $transaction = new Transaction(0, $data['from_account_id'], $data['to_account_id'], $data['amount'], $data['timestamp']);
 
         $transaction = Transaction::create($transaction);
 

@@ -31,7 +31,7 @@ class UserController implements BaseController
     public function create()
     {
         $data = json_decode(file_get_contents('php://input'), true);
-        $user = new User($data['id'], $data['name'], $data['email'], $data['password']);
+        $user = new User(0, $data['name'], $data['email'], $data['password']);
 
         $user = User::create($user);
 
