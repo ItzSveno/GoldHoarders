@@ -1,5 +1,5 @@
 # Don't track content of these folders
-config/config.php
+config.php
 .idea
 vendor/
 
@@ -23,6 +23,4 @@ vendor/
 *.rar
 *.tar
 *.zip
-
-vendor
 

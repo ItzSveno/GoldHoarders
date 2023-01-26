@@ -21,9 +21,7 @@ class AccountController implements BaseController
     // (int $id)
     public function indexOfUser()
     {
-        if (!isset($id)) {
-            $id = $_GET['id'];
-        }
+        $id = $_GET['id'];
 
         $accounts = Account::allOfUser($id);
 

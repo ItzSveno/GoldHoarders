@@ -2,7 +2,7 @@
 
 namespace Model;
 
-use Enum\Type;
+use Enums\Type;
 
 class AccountDto
 {
@@ -11,7 +11,7 @@ class AccountDto
         public float $balance,
         public Type $type,
         public int $user_id,
-        public string $timestamp
+        public ?string $timestamp
     ) {
     }
 }

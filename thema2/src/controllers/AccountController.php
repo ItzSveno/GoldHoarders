@@ -5,26 +5,27 @@ declare(strict_types=1);
 namespace Controller\API;
 
 use Model\Account;
-use Enum\Type;
+use Enums\Type;
+use Model\AccountDto;
+use ORM\EM;
 
 class AccountController implements BaseController
 {
     public function index()
     {
-        $accounts = Account::all();
+        $accounts = EM::getEntityManager()->getRepository(Account::class)->findAll();
 
         foreach($accounts as $account) {
             echo json_encode(['balance' => $account->balance, 'type' => $account->type->toString(), 'user_id' => $account->user_id, 'timestamp' => $account->timestamp]);
         }
     }
 
-    public function indexOfUser($id)
+    // (int $id)
+    public function indexOfUser()
     {
-        if (!isset($id)) {
-            $id = $_GET['id'];
-        }
+        $id = $_GET['id'];
 
-        $accounts = Account::allOfUser($id);
+        $accounts = EM::getEntityManager()->getRepository(Account::class)->findBy(['user_id' => $id]);
 
         foreach($accounts as $account) {
             echo json_encode(['balance' => $account->balance, 'type' => $account->type->toString(), 'user_id' => $account->user_id, 'timestamp' => $account->timestamp]);
@@ -32,45 +33,41 @@ class AccountController implements BaseController
         
     }
 
-    public function show($id)
+    // (int $id)
+    public function show()
     {
-        if (!isset($id)) {
-            $id = $_GET['id'];
-        }
+        $id = $_GET['id'];
 
-        $account = Account::find($id);
+        $account = EM::getEntityManager()->getRepository(Account::class)->find($id);
         echo json_encode(['balance' => $account->balance, 'type' => $account->type->toString(), 'user_id' => $account->user_id, 'timestamp' => $account->timestamp]);
     }
 
-    public function create($account)
+    // (Account $account)
+    public function create()
     {
-        if (isset($account)) {
-            $data = json_decode(file_get_contents('php://input'), true);
-            $account = new Account($data['id'], $data['balance'],  Type::fromString($data['type']), $data['user_id'], null);
-        }
+        $data = json_decode(file_get_contents('php://input'), true);
+        $account = new AccountDto(0, $data['balance'],  Type::fromString($data['type']), $data['user_id'], null);
 
-        $account = Account::create($account);
+        $account = EM::getEntityManager()->getRepository(Account::class)->create($account);
         echo json_encode(['balance' => $account->balance, 'type' => $account->type->toString(), 'user_id' => $account->user_id, 'timestamp' => $account->timestamp]);
     }
 
-    public function update($account)
+    // (Account $account)
+    public function update()
     {
-        if (isset($account)) {
-            $data = json_decode(file_get_contents('php://input'), true);
-            $account = new Account($data['id'], $data['balance'],  Type::fromString($data['type']), $data['user_id'], null);
-        }
+        $data = json_decode(file_get_contents('php://input'), true);
+        $account = new AccountDto($data['id'], $data['balance'],  Type::fromString($data['type']), $data['user_id'], null);
 
-        $account = $account->update();
+        $account = EM::getEntityManager()->getRepository(Account::class)->update($account);
         echo json_encode(['balance' => $account->balance, 'type' => $account->type->toString(), 'user_id' => $account->user_id, 'timestamp' => $account->timestamp]);
     }
 
-    public function delete($id)
+    // (int $id)
+    public function delete()
     {
-        if (!isset($id)) {
-            $id = $_GET['id'];
-        }
+        $id = $_GET['id'];
 
-        Account::delete($id);
+        EM::getEntityManager()->getRepository(Account::class)->delete($id);
 
         echo json_encode(['deleted' => "$id deleted"]);
     }

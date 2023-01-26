@@ -5,32 +5,51 @@ declare(strict_types=1);
 namespace Controller\API;
 
 use Model\User;
+use Model\UserDto;
+use ORM\EM;
 
 class AuthController
 {
-    public function login($email, $password)
+    // (string $email, string $password)
+    public function login()
     {
-        if (!isset($email) || !isset($password)) {
-            $email = $_POST['email'];
-            $password = $_POST['password'];
+        $email = $_POST['email'];
+        $password = $_POST['password'];
+
+        $result = EM::getEntityManager()->getRepository(User::class)->findOneBy(['email' => $email]);
+
+        if ($result && password_verify($password, $result['password'])) {
+            $_SESSION['id'] = $result['id'];
+        } else {
+            throw new \Exception("Invalid credentials");
         }
 
-        User::login($email, $password);
     }
 
     public function logout()
     {
-        User::logout();
+        session_destroy();
     }
 
-    public function register($user)
+    // (User $user)
+    public function register()
     {
-        if (!isset($user)) {
-            $user->name = $_POST['name'];
-            $user->email = $_POST['email'];
-            $user->password = $_POST['password'];
+        $name = $_POST['name'];
+        $email = $_POST['email'];
+        $password = $_POST['password'];
+
+        $user = EM::getEntityManager()->getRepository(User::class)->findOneBy(['email' => $email]);
+
+        if ($user) {
+            throw new \Exception("Email already exists");
         }
 
-        User::register($user->name, $user->email, $user->password);
+        $hashedPass = password_hash($password, PASSWORD_ARGON2ID);
+
+        $user = new UserDto(0, $name, $email, $hashedPass);
+        EM::getEntityManager()->persist($user);
+        EM::getEntityManager()->flush();
+
+        $_SESSION['id'] = $user->id;
     }
 }
