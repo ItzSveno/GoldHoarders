@@ -17,34 +17,34 @@ Wie möchten eine Web API für eine Bankapplikation erstellen. Dafür benutzen w
 ## Projekt einrichten
 
 ### Thema 1
-1 Unter thema1/config/ die Datei config.php erstellen gemäss config.php.example
-1 In thema1/ das Befehl `composer install` ausführen
+- Unter thema1/config/ die Datei config.php erstellen gemäss config.php.example
+- In thema1/ das Befehl `composer install` ausführen
 
 ### Thema 2
-1 Dasselbe wie bei Thema 1
+- Dasselbe wie bei Thema 1
 
 ## Hosting
-1 Entweder unter thema1 oder thema2 das Befehl `php -S localhost:{beliebiger Port}` ausführen
+- Entweder unter thema1 oder thema2 das Befehl `php -S localhost:{beliebiger Port}` ausführen
 
 ## Architektur
 
 ### Thema 1
 ![thema1](https://raw.githubusercontent.com/ItzSveno/GoldHoarders/main/architecture/thema1_architektur.png)
 
-1 config/ enthält die Konfigurationen für die db
-1 src/Controller/API/ enthält die API Controller
-1 src/Enums/ enthält die jenigen Enums die wir benutzen
-1 src/Model/ enthält die Model Klassen und ein Singleton für die Datenbankverbindung
+- config/ enthält die Konfigurationen für die db
+- src/Controller/API/ enthält die API Controller
+- src/Enums/ enthält die jenigen Enums die wir benutzen
+- src/Model/ enthält die Model Klassen und ein Singleton für die Datenbankverbindung
 
 ### Thema 2
 ![thema2](https://raw.githubusercontent.com/ItzSveno/GoldHoarders/main/architecture/thema2_architektur.png)
 
-1 bin/ enthält die Doctrine CLI
-1 config/ enthält die Konfigurationen für die db
-1 src/Controllers/ enthält die API Controller
-1 src/Enums/ enthält die jenigen Enums die wir benutzen
-1 src/Models enthält die ORM Models
-1 src/ORM enthält den EntityManager und seine Konfigurationen
+- bin/ enthält die Doctrine CLI
+- config/ enthält die Konfigurationen für die db
+- src/Controllers/ enthält die API Controller
+- src/Enums/ enthält die jenigen Enums die wir benutzen
+- src/Models enthält die ORM Models
+- src/ORM enthält den EntityManager und seine Konfigurationen
 
 ## Beschreibung der Applikation
 
