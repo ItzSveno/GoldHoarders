@@ -6,7 +6,7 @@ namespace Model;
 
 use PDO;
 
-require __DIR__ . '../../config/config.php';
+require __DIR__ . '/../../config/config.php';
 class Database
 {
     static $connection;

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Model;
 
-class User extends BaseModel
+class User implements BaseModel
 {
 
     public function __construct(public int $id, public string $name, public string $email, public string $password)

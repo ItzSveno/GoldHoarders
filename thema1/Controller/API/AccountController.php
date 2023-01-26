@@ -7,7 +7,7 @@ namespace Controller\API;
 use Model\Account;
 use Enum\Type;
 
-class AccountController extends BaseController
+class AccountController implements BaseController
 {
     public function index()
     {

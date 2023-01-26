@@ -6,7 +6,7 @@ namespace Controller\API;
 
 use Model\User;
 
-class UserController extends BaseController
+class UserController implements BaseController
 {
     public function index()
     {

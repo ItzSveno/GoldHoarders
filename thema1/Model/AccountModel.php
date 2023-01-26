@@ -7,7 +7,7 @@ namespace Model;
 use DateTime;
 use Enum\Type;
 
-class Account extends BaseModel
+class Account implements BaseModel
 {
 
     public function __construct(public int $id, public float $balance, public Type $type, public int $user_id, public DateTime $timestamp)

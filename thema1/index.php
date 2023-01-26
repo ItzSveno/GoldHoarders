@@ -1,6 +1,6 @@
 <?php
 
-require __DIR__ . '../config/config.php';
+require __DIR__ . '/../config/config.php';
 header('Content-Type: application/json');
 
 $urlParams = explode('/', $_SERVER['REQUEST_URI']);
