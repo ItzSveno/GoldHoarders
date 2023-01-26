@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Model;
 
 use DateTime;
-use Enum\Type;
+use Enums\Type;
 
 class Account implements BaseModel
 {

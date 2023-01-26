@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Controller\API;
 
 use Model\Account;
-use Enum\Type;
+use Enums\Type;
 
 class AccountController implements BaseController
 {
