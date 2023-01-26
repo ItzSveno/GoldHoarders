@@ -44,7 +44,7 @@ class AccountController implements BaseController
 
     public function create($account)
     {
-        if (isset($account)) {
+        if (!isset($account)) {
             $data = json_decode(file_get_contents('php://input'), true);
             $account = new Account($data['id'], $data['balance'],  Type::fromString($data['type']), $data['user_id'], null);
         }
@@ -55,7 +55,7 @@ class AccountController implements BaseController
 
     public function update($account)
     {
-        if (isset($account)) {
+        if (!isset($account)) {
             $data = json_decode(file_get_contents('php://input'), true);
             $account = new Account($data['id'], $data['balance'],  Type::fromString($data['type']), $data['user_id'], null);
         }

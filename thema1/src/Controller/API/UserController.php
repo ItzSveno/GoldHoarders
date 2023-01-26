@@ -30,7 +30,7 @@ class UserController implements BaseController
 
     public function create($user)
     {
-        if(isset($user)) {
+        if(!isset($user)) {
             $data = json_decode(file_get_contents('php://input'), true);
             $user = new User($data['id'], $data['name'], $data['email'], $data['password']);
         }
@@ -42,7 +42,7 @@ class UserController implements BaseController
 
     public function update($user)
     {
-        if (isset($user)) {
+        if (!isset($user)) {
             $data = json_decode(file_get_contents('php://input'), true);
             $user = new User($data['id'], $data['name'], $data['email'], $data['password']);
         }
