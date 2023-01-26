@@ -12,7 +12,7 @@ class Database
 
     public static function getConnection(): PDO
     {
-        $config = require_once(__DIR__ . '/../../../config/config.php');
+        $config = require_once(__DIR__ . '/../../config/config.php');
         
         if (!isset($connection)) {
             $connection = new PDO("mysql:host=".$config['host'].";dbname=".$config['db'], $config['user'], $config['password']);

@@ -14,7 +14,7 @@ readonly class EM {
             isDevMode: true,
         );
 
-        $config = require_once(__DIR__ . '/../../../config/config.php');
+        $config = require_once(__DIR__ . '/../config/config.php');
 
         $connection = DriverManager::getConnection(
             [
