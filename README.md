@@ -5,4 +5,4 @@ Wie möchten eine Web API für eine Bankapplikation erstellen. Dafür benutzen w
 
 ## Unser ERD
 
-![https://raw.githubusercontent.com/ItzSveno/GoldHoarders/main/db/ERD.png]
+![image](https://raw.githubusercontent.com/ItzSveno/GoldHoarders/main/db/ERD.png)
