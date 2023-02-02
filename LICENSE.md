@@ -1,3 +1,6 @@
+The following license applies to everyone except the github user "Sorry4Nothing". This
+person is not allowed to use this software in any way, shape or form.
+
 --------------------------------------------------------------------
                   The PHP License, version 3.01
 Copyright (c) 1999 - 2019 The PHP Group. All rights reserved.
